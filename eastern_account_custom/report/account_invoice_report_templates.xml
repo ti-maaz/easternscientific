@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_eastern_details" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-set='display_discount']" position="attributes">
+            <attribute name="t-value">o.show_invoice_discount_details and any(l.discount for l in lines_to_report)</attribute>
+        </xpath>
+        <xpath expr="//t[@t-set='display_taxes']" position="attributes">
+            <attribute name="t-value">o.show_tax_details and any(l.tax_ids for l in o.invoice_line_ids)</attribute>
+        </xpath>
+        <xpath expr="//th[@name='th_discount']/span" position="replace">
+            <span>Discount</span>
+        </xpath>
+        <xpath expr="//td[@name='td_discount']/span" position="replace">
+            <span t-if="line.discount_type == 'fixed'"
+                  t-field="line.discount_fixed"
+                  t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+            <span t-else="" class="text-nowrap"><span t-field="line.discount"/>%</span>
+        </xpath>
+        <xpath expr="//t[@t-call='account.document_tax_totals']" position="attributes">
+            <attribute name="t-if">o.show_tax_details and o.tax_totals</attribute>
+        </xpath>
+        <xpath expr="//t[@t-call='account.document_tax_totals']" position="after">
+            <tr t-if="not o.show_tax_details and o.tax_totals" class="o_total">
+                <td><strong>Amount Total</strong></td>
+                <td class="text-end">
+                    <strong t-field="o.amount_total"
+                            t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                </td>
+            </tr>
+        </xpath>
+        <xpath expr="//t[t[@t-call='account.document_tax_totals_company_currency_template']]" position="attributes">
+            <attribute name="t-if">o.show_tax_details and o.tax_totals and o.tax_totals.get('display_in_company_currency')</attribute>
+        </xpath>
+    </template>
+</odoo>
