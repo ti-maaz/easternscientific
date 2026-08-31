@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_eastern_account" model="ir.ui.view">
+        <field name="name">account.move.form.eastern.account</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="eastern_invoice_type"
+                       invisible="move_type not in ('out_invoice', 'out_refund')"
+                       readonly="state != 'draft' or posted_before"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_payment_term_id']" position="after">
+                <field name="show_tax_details"
+                       invisible="move_type not in ('out_invoice', 'out_refund')"/>
+                <field name="show_invoice_discount_details"
+                       invisible="move_type not in ('out_invoice', 'out_refund')"/>
+            </xpath>
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="cheque_number"
+                       placeholder="Cheque number"
+                       invisible="move_type != 'entry'"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']//field[@name='discount']" position="before">
+                <field name="discount_type" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']//field[@name='discount']" position="attributes">
+                <attribute name="invisible">discount_type == 'fixed'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']//field[@name='discount']" position="after">
+                <field name="discount_fixed"
+                       optional="hide"
+                       invisible="discount_type != 'fixed'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

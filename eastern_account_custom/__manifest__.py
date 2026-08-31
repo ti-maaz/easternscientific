@@ -1,0 +1,20 @@
+{
+    "name": "Eastern Accounting Customizations",
+    "version": "19.0.1.0.0",
+    "category": "Accounting/Accounting",
+    "summary": "Eastern Scientific invoice, cheque, discount, and ledger customizations",
+    "author": "Eastern Scientific Corporation (Private) Limited",
+    "license": "LGPL-3",
+    "depends": ["account", "account_reports"],
+    "data": [
+        "views/res_config_settings_views.xml",
+        "views/account_payment_views.xml",
+        "views/account_move_views.xml",
+        "report/account_invoice_report_templates.xml",
+        "report/account_general_ledger.xml",
+    ],
+    "post_init_hook": "post_init_hook",
+    "uninstall_hook": "uninstall_hook",
+    "installable": True,
+    "application": False,
+}
