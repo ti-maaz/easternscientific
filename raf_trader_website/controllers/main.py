@@ -13,7 +13,9 @@ _PAGE_PATHS = (
     "about",
     "blog",
     "contact-us",
+    "delivery-information",
     "gallery",
+    "privacy-policy",
     "product-category/heidelberg-offset-four-color-printing-machine",
     "product-category/heidelberg-offset-one-color-printing-machine",
     "product-category/heidelberg-offset-six-color-printing-machine",
@@ -22,6 +24,8 @@ _PAGE_PATHS = (
     "product/gw-d-150-twin-knife-sheeter",
     "product/heidelberg-offset-two-color-printing-machine",
     "product/spare-parts-muller-martini-progress",
+    "site-map",
+    "terms-and-conditions",
 )
 
 _PAGE_ROUTES = [f"/{path}/" for path in _PAGE_PATHS]

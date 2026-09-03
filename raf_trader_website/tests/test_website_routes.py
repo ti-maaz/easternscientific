@@ -8,6 +8,19 @@ class TestRafTraderWebsiteRoutes(HttpCase):
         self.assertEqual(homepage.status_code, 200)
         self.assertIn(b"RAF TRADERS", homepage.content.upper())
 
+        footer_links = (
+            b'href="/about/"',
+            b'href="/blog/"',
+            b'href="/contact-us/"',
+            b'href="/delivery-information/"',
+            b'href="/gallery/"',
+            b'href="/privacy-policy/"',
+            b'href="/site-map/"',
+            b'href="/terms-and-conditions/"',
+        )
+        for footer_link in footer_links:
+            self.assertIn(footer_link, homepage.content)
+
         about_page = self.url_open("/about/")
         self.assertEqual(about_page.status_code, 200)
 
@@ -16,6 +29,18 @@ class TestRafTraderWebsiteRoutes(HttpCase):
         )
         self.assertEqual(logo.status_code, 200)
         self.assertEqual(logo.headers["Content-Type"], "image/webp")
+
+    def test_under_construction_pages(self):
+        pages = (
+            "/delivery-information/",
+            "/privacy-policy/",
+            "/site-map/",
+            "/terms-and-conditions/",
+        )
+        for page in pages:
+            response = self.url_open(page)
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(b"under construction", response.content.lower())
 
     def test_odoo_backend_remains_available(self):
         response = self.url_open("/web/login")
