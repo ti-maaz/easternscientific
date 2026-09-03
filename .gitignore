@@ -1,0 +1,13 @@
+*.py[cod]
+__pycache__/
+
+# Local editor files
+*.code-workspace
+
+# RAF Traders mirror tooling (not needed by Odoo.sh at runtime)
+raf_trader_website/node_modules/
+raf_trader_website/*.log
+raf_trader_website/crawl.js
+raf_trader_website/crawl-report.json
+raf_trader_website/package.json
+raf_trader_website/package-lock.json
