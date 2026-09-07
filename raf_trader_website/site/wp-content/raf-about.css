@@ -1,0 +1,874 @@
+/* RAF Traders — About page.
+   Tokens are taken from the Elementor kit used by the header, footer and home
+   page so this page reads as part of the same site:
+   blue #2B75A2, amber #FBB040, ink #0E0E0E, tint #F7F8FA, body copy #7A7A7A. */
+
+.raf-about {
+    --raf-blue: #2b75a2;
+    --raf-amber: #fbb040;
+    --raf-ink: #0e0e0e;
+    --raf-tint: #f7f8fa;
+    --raf-body: #7a7a7a;
+    --raf-line: #d3d3d3;
+    --raf-font: "Poppins", Sans-serif;
+    font-family: var(--raf-font);
+    color: var(--raf-body);
+}
+
+/* The Hello Elementor theme caps .site-main at 1140px because this page has no
+   elementor-page-* body class. Full-bleed bands need the whole viewport. */
+#content.site-main {
+    max-width: none;
+    padding-inline: 0;
+}
+
+.raf-about *,
+.raf-about *::before,
+.raf-about *::after {
+    box-sizing: border-box;
+}
+
+.raf-about a {
+    text-decoration: none;
+}
+
+.raf-about p {
+    margin: 0;
+}
+
+/* The ElementsKit icon font is only bound inside .elementor-widget, so bind it
+   again for the icons used on this page. */
+.raf-about .icon::before {
+    font-family: elementskit !important;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    line-height: 1;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------------------------------------------------------------- structure */
+
+.raf-sec {
+    padding: 50px 10px;
+}
+
+.raf-sec--tint {
+    background-color: var(--raf-tint);
+}
+
+.raf-sec--ink {
+    background-color: var(--raf-ink);
+}
+
+.raf-sec--blue {
+    background-color: var(--raf-blue);
+}
+
+.raf-sec__in {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+/* ---------------------------------------------------------------- headings */
+
+.raf-h2 {
+    margin: 0;
+    color: #000;
+    font-family: var(--raf-font);
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.raf-h3 {
+    margin: 0;
+    color: #000;
+    font-family: var(--raf-font);
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+/* Section eyebrow, styled like the footer column titles. */
+.raf-eyebrow {
+    display: inline-block;
+    padding-inline-start: 10px;
+    border-inline-start: 2px solid var(--raf-amber);
+    color: var(--raf-blue);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.raf-head {
+    max-width: 720px;
+    margin: 0 auto 36px;
+    text-align: center;
+}
+
+.raf-head .raf-eyebrow {
+    margin-bottom: 14px;
+}
+
+.raf-head p {
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+/* Line–icon–line divider, as used under the home page section titles. */
+.raf-div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 170px;
+    margin: 16px 0 0;
+    color: #000;
+}
+
+.raf-head .raf-div {
+    margin-inline: auto;
+}
+
+.raf-div::before,
+.raf-div::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: currentColor;
+}
+
+.raf-div .icon {
+    font-size: 22px;
+}
+
+.raf-sec--ink .raf-h2,
+.raf-sec--blue .raf-h2,
+.raf-sec--ink .raf-div,
+.raf-sec--blue .raf-div {
+    color: #fff;
+}
+
+.raf-sec--ink .raf-eyebrow,
+.raf-sec--blue .raf-eyebrow {
+    color: var(--raf-amber);
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.raf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 30px;
+    border: 1px solid var(--raf-amber);
+    border-radius: 24px;
+    background-color: var(--raf-amber);
+    color: #000;
+    font-family: var(--raf-font);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.raf-btn .icon {
+    font-size: 13px;
+}
+
+.raf-btn:hover,
+.raf-btn:focus-visible {
+    border-color: #fff;
+    background-color: var(--raf-blue);
+    color: #fff;
+}
+
+.raf-btn--ghost {
+    border-color: rgb(255 255 255 / 55%);
+    background-color: transparent;
+    color: #fff;
+}
+
+.raf-btn--ghost:hover,
+.raf-btn--ghost:focus-visible {
+    border-color: var(--raf-amber);
+    background-color: var(--raf-amber);
+    color: #000;
+}
+
+/* ---------------------------------------------------------------- 1. hero */
+
+.raf-hero {
+    position: relative;
+    padding: 10px;
+    background-color: #12384f;
+    background-image: url(uploads/2026/08/banner-01-3.webp);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: cover;
+}
+
+.raf-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(90deg, rgb(9 32 46 / 88%) 0%, rgb(9 32 46 / 72%) 42%, rgb(9 32 46 / 10%) 78%);
+}
+
+.raf-hero__in {
+    position: relative;
+    z-index: 1;
+    max-width: 1300px;
+    min-height: 420px;
+    margin: 0 auto;
+    padding: 70px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.raf-crumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgb(255 255 255 / 75%);
+    font-size: 14px;
+}
+
+.raf-crumbs a {
+    color: rgb(255 255 255 / 75%);
+    transition: color 0.3s;
+}
+
+.raf-crumbs a:hover {
+    color: var(--raf-amber);
+}
+
+.raf-crumbs .icon {
+    font-size: 10px;
+    color: var(--raf-amber);
+}
+
+.raf-crumbs [aria-current] {
+    color: #fff;
+}
+
+.raf-hero__title {
+    max-width: 720px;
+    margin: 18px 0 0;
+    color: #fff;
+    font-family: var(--raf-font);
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.18;
+}
+
+.raf-hero__title span {
+    color: var(--raf-amber);
+}
+
+.raf-hero__text {
+    max-width: 620px;
+    margin-top: 20px;
+    color: #e7e7e7;
+    font-size: 17px;
+    line-height: 30px;
+}
+
+.raf-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 32px;
+}
+
+/* ------------------------------------------------------------- 2. marquee */
+
+/* Same treatment as the home page marquee band. */
+.raf-marquee {
+    display: flex;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 12px 50px;
+    background-color: var(--raf-amber);
+    color: #000;
+    font-family: "Inter", var(--raf-font);
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.raf-marquee__track {
+    display: flex;
+    animation: raf-marquee-scroll 80s linear infinite;
+    animation-delay: 250ms;
+}
+
+.raf-marquee__track > span {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+@keyframes raf-marquee-scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .raf-marquee__track {
+        animation: none;
+    }
+}
+
+/* ------------------------------------------------------------ 3. who we are */
+
+.raf-split {
+    display: grid;
+    grid-template-columns: minmax(0, 400px) 1fr;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Capped at the artwork's native width so it is never upscaled. */
+.raf-media {
+    position: relative;
+}
+
+/* Keeps the body copy at a readable measure on wide screens. */
+.raf-split > *:last-child {
+    max-width: 780px;
+}
+
+.raf-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--raf-line);
+    border-radius: 8px;
+}
+
+.raf-media__tag {
+    position: absolute;
+    right: -14px;
+    bottom: 28px;
+    max-width: 210px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    background-color: var(--raf-ink);
+    color: #fff;
+    box-shadow: 0 18px 40px rgb(14 14 14 / 22%);
+}
+
+.raf-media__tag strong {
+    display: block;
+    color: var(--raf-amber);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.raf-media__tag span {
+    display: block;
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 20px;
+    color: #e7e7e7;
+}
+
+.raf-prose {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.raf-prose + .raf-prose {
+    margin-top: 16px;
+}
+
+.raf-checks {
+    margin: 26px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 26px;
+}
+
+.raf-checks li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #000;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.raf-checks .icon {
+    flex: none;
+    margin-top: 3px;
+    color: var(--raf-blue);
+    font-size: 15px;
+}
+
+.raf-split .raf-btn {
+    margin-top: 30px;
+}
+
+/* --------------------------------------------------------------- 4. stats */
+
+.raf-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px;
+}
+
+.raf-stat {
+    padding-inline-start: 22px;
+    border-inline-start: 2px solid rgb(251 176 64 / 45%);
+}
+
+.raf-stat .icon {
+    color: var(--raf-amber);
+    font-size: 26px;
+}
+
+.raf-stat strong {
+    display: block;
+    margin-top: 12px;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 34px;
+}
+
+.raf-stat span {
+    display: block;
+    margin-top: 6px;
+    color: #e7e7e7;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+/* ------------------------------------------------------------- 5. process */
+
+.raf-steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.raf-step {
+    position: relative;
+    padding: 30px 26px;
+    border: 1px solid var(--raf-line);
+    border-radius: 8px;
+    background-color: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.raf-step:hover {
+    border-color: var(--raf-blue);
+    box-shadow: 0 20px 40px rgb(43 117 162 / 12%);
+    transform: translateY(-4px);
+}
+
+.raf-step__no {
+    display: block;
+    color: var(--raf-amber);
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.raf-step .raf-h3 {
+    margin: 14px 0 10px;
+}
+
+.raf-step p {
+    font-size: 15px;
+    line-height: 26px;
+}
+
+/* ----------------------------------------------------------- 6. why us */
+
+.raf-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.raf-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 28px 26px;
+    border: 1px solid var(--raf-line);
+    border-radius: 8px;
+    background-color: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.raf-card:hover {
+    border-color: var(--raf-blue);
+    box-shadow: 0 20px 40px rgb(43 117 162 / 12%);
+}
+
+.raf-card__icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 40px;
+    background-color: var(--raf-amber);
+    color: var(--raf-ink);
+    font-size: 25px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.raf-card:hover .raf-card__icon {
+    background-color: var(--raf-blue);
+    color: #fff;
+}
+
+.raf-card p {
+    margin-top: 8px;
+    font-size: 15px;
+    line-height: 26px;
+}
+
+/* -------------------------------------------------------- 7. what we deal in */
+
+.raf-cats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.raf-cat {
+    display: block;
+    text-align: center;
+}
+
+.raf-cat img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--raf-line);
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.raf-cat__title {
+    margin: 14px 0 0;
+    color: #000;
+    font-family: var(--raf-font);
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 26px;
+    transition: color 0.3s;
+}
+
+.raf-cat:hover .raf-cat__title {
+    color: var(--raf-blue);
+}
+
+.raf-cat__more {
+    margin-top: 6px;
+    color: var(--raf-body);
+    font-size: 14px;
+}
+
+.raf-note {
+    max-width: 860px;
+    margin: 48px auto 0;
+    text-align: center;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.raf-note a {
+    color: var(--raf-blue);
+    font-weight: 500;
+}
+
+.raf-note a:hover {
+    color: var(--raf-amber);
+}
+
+/* ----------------------------------------------------------------- 8. cta */
+
+.raf-cta {
+    display: grid;
+    grid-template-columns: 45% 1fr;
+    align-items: center;
+    gap: 50px;
+}
+
+.raf-cta .raf-h2 {
+    margin-top: 14px;
+}
+
+.raf-cta__text {
+    margin-top: 18px;
+    color: #eaf3f9;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.raf-contacts {
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 18px;
+}
+
+.raf-contacts li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.raf-contacts .icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 40px;
+    background-color: var(--raf-amber);
+    color: var(--raf-ink);
+    font-size: 20px;
+}
+
+.raf-contacts strong {
+    display: block;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.raf-contacts span,
+.raf-contacts a {
+    display: block;
+    margin-top: 5px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.raf-contacts a:hover {
+    color: var(--raf-amber);
+}
+
+/* Inquiry form — matches the home page form: pill fields, amber submit. */
+.raf-form {
+    padding: 30px;
+    border: 1px solid rgb(255 255 255 / 45%);
+    border-radius: 24px;
+    background-color: rgb(255 255 255 / 8%);
+}
+
+.raf-about .raf-form .elementor-form-fields-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px -20px;
+}
+
+.raf-about .raf-form .elementor-field-group {
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+
+.raf-about .raf-form .elementor-field-label {
+    display: block;
+    padding-bottom: 8px;
+    color: #fff;
+    font-family: var(--raf-font);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.raf-about .raf-form .elementor-field {
+    width: 100%;
+    padding: 11px 20px;
+    border: 1px solid rgb(255 255 255 / 60%);
+    border-radius: 24px;
+    background-color: transparent;
+    color: #fff;
+    font-family: var(--raf-font);
+    font-size: 15px;
+}
+
+.raf-about .raf-form textarea.elementor-field {
+    border-radius: 18px;
+    resize: vertical;
+}
+
+.raf-about .raf-form .elementor-field::placeholder {
+    color: rgb(255 255 255 / 65%);
+}
+
+.raf-about .raf-form .elementor-field:focus {
+    outline: none;
+    border-color: var(--raf-amber);
+}
+
+.raf-about .raf-form .elementor-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 30px;
+    border: 1px solid var(--raf-amber);
+    border-radius: 24px;
+    background-color: var(--raf-amber);
+    color: #000;
+    font-family: var(--raf-font);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.raf-about .raf-form .elementor-button svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+}
+
+.raf-about .raf-form .elementor-button:hover {
+    border-color: #fff;
+    background-color: var(--raf-blue);
+    color: #fff;
+}
+
+.raf-about .raf-form .e-form__buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 1024px) {
+    .raf-hero__title {
+        font-size: 40px;
+    }
+
+    /* Less image is visible here, so the copy needs a heavier scrim. */
+    .raf-hero::after {
+        background-image: linear-gradient(100deg, rgb(9 32 46 / 92%) 0%, rgb(9 32 46 / 84%) 58%, rgb(9 32 46 / 45%) 100%);
+    }
+
+    .raf-stats,
+    .raf-steps,
+    .raf-cats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .raf-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .raf-split,
+    .raf-cta {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .raf-media {
+        max-width: 420px;
+    }
+
+    .raf-media__tag {
+        right: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .raf-sec {
+        padding: 30px 10px;
+    }
+
+    .raf-h2 {
+        font-size: 25px;
+    }
+
+    .raf-hero {
+        background-position: 70% center;
+    }
+
+    .raf-hero::after {
+        background-image: linear-gradient(180deg, rgb(9 32 46 / 90%) 0%, rgb(9 32 46 / 80%) 100%);
+    }
+
+    .raf-hero__in {
+        min-height: 0;
+        padding: 46px 0;
+    }
+
+    .raf-hero__title {
+        font-size: 30px;
+    }
+
+    .raf-hero__text {
+        font-size: 15px;
+        line-height: 27px;
+    }
+
+    .raf-marquee {
+        padding: 10px 20px;
+        font-size: 17px;
+    }
+
+    .raf-stats,
+    .raf-steps,
+    .raf-cards,
+    .raf-cats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .raf-checks {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .raf-media {
+        max-width: none;
+    }
+
+    .raf-media__tag {
+        position: static;
+        max-width: none;
+        margin-top: 14px;
+    }
+
+    .raf-form {
+        padding: 20px;
+    }
+
+    .raf-about .raf-form .e-form__buttons {
+        justify-content: stretch;
+    }
+
+    .raf-about .raf-form .elementor-button {
+        width: 100%;
+        justify-content: center;
+    }
+}

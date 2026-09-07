@@ -23,6 +23,11 @@ class TestRafTraderWebsiteRoutes(HttpCase):
 
         about_page = self.url_open("/about/")
         self.assertEqual(about_page.status_code, 200)
+        self.assertIn(b"About <span>RAF Traders</span>", about_page.content)
+
+        about_styles = self.url_open("/wp-content/raf-about.css")
+        self.assertEqual(about_styles.status_code, 200)
+        self.assertTrue(about_styles.headers["Content-Type"].startswith("text/css"))
 
         logo = self.url_open(
             "/wp-content/uploads/2026/07/Raftraders-logo-400x117.webp"
