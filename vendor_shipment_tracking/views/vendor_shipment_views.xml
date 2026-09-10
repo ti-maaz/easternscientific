@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_vendor_shipment_list" model="ir.ui.view">
+        <field name="name">vendor.shipment.list</field>
+        <field name="model">vendor.shipment</field>
+        <field name="arch" type="xml">
+            <list string="Shipment Tracking" multi_edit="1"
+                  decoration-muted="shipment_status == 'cancelled'">
+                <field name="name"/>
+                <field name="vendor_id"/>
+                <field name="vendor_order_number" optional="show"/>
+                <field name="purchase_order_ids" widget="many2many_tags" optional="hide"/>
+                <field name="shipment_etd" optional="show"/>
+                <field name="shipment_eta" optional="show"/>
+                <field name="shipment_status" widget="badge"
+                       decoration-warning="shipment_status == 'pending'"
+                       decoration-info="shipment_status in ('booked', 'in_transit')"
+                       decoration-primary="shipment_status == 'arrived'"
+                       decoration-success="shipment_status == 'delivered'"
+                       decoration-danger="shipment_status == 'cancelled'"/>
+                <field name="document_etd" optional="show"/>
+                <field name="document_eta" optional="show"/>
+                <field name="document_status" widget="badge"
+                       decoration-danger="document_status == 'not_received'"
+                       decoration-warning="document_status == 'expected'"
+                       decoration-success="document_status == 'received'"/>
+                <field name="confirmation_status" widget="badge"
+                       decoration-muted="confirmation_status == 'draft'"
+                       decoration-warning="confirmation_status == 'sent'"
+                       decoration-success="confirmation_status == 'confirmed'"
+                       decoration-danger="confirmation_status == 'not_confirmed'"/>
+                <field name="shipping_company_id" optional="hide"/>
+                <field name="tracking_reference" optional="hide"/>
+                <field name="user_id" widget="many2one_avatar_user" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_vendor_shipment_form" model="ir.ui.view">
+        <field name="name">vendor.shipment.form</field>
+        <field name="model">vendor.shipment</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Shipment">
+                <header>
+                    <button name="action_send_confirmation" string="Send Confirmation Email"
+                            type="object" class="oe_highlight"
+                            invisible="shipment_status == 'cancelled' or confirmation_status == 'confirmed'"/>
+                    <button name="action_mark_confirmed" string="Mark Confirmed" type="object"
+                            invisible="shipment_status == 'cancelled' or confirmation_status == 'confirmed'"/>
+                    <button name="action_mark_not_confirmed" string="Mark Not Confirmed" type="object"
+                            invisible="shipment_status == 'cancelled' or confirmation_status == 'not_confirmed'"/>
+                    <button name="action_reset_confirmation" string="Reset Confirmation" type="object"
+                            groups="vendor_shipment_tracking.group_vendor_shipment_manager"
+                            invisible="confirmation_status == 'draft' or shipment_status == 'cancelled'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            groups="vendor_shipment_tracking.group_vendor_shipment_manager"
+                            invisible="shipment_status == 'cancelled'"/>
+                    <button name="action_reset_pending" string="Reset to Pending" type="object"
+                            groups="vendor_shipment_tracking.group_vendor_shipment_manager"
+                            invisible="shipment_status != 'cancelled'"/>
+                    <field name="shipment_status" widget="statusbar"
+                           statusbar_visible="pending,booked,in_transit,arrived,delivered"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Cancelled" bg_color="text-bg-danger"
+                            invisible="shipment_status != 'cancelled'"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_purchase_orders" type="object" class="oe_stat_button"
+                                icon="fa-shopping-cart" invisible="purchase_order_count == 0">
+                            <field name="purchase_order_count" widget="statinfo" string="Purchase Orders"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Order Details">
+                            <field name="vendor_id" widget="res_partner_many2one"
+                                   context="{'res_partner_search_mode': 'supplier', 'show_vat': True}"/>
+                            <field name="vendor_order_number"/>
+                            <field name="purchase_order_ids" widget="many2many_tags"
+                                   domain="[('partner_id', '=', vendor_id),
+                                            ('state', 'in', ['purchase', 'done']),
+                                            ('company_id', '=', company_id)]"
+                                   context="{'default_partner_id': vendor_id}"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Shipping Details">
+                            <field name="shipping_company_id" widget="res_partner_many2one"/>
+                            <field name="transport_mode"/>
+                            <field name="tracking_reference"/>
+                            <field name="origin"/>
+                            <field name="destination"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Schedule" name="schedule">
+                            <group>
+                                <group string="Shipment">
+                                    <field name="shipment_etd"/>
+                                    <field name="shipment_eta"/>
+                                    <field name="shipment_status" widget="badge"
+                                           decoration-warning="shipment_status == 'pending'"
+                                           decoration-info="shipment_status in ('booked', 'in_transit')"
+                                           decoration-success="shipment_status in ('arrived', 'delivered')"
+                                           decoration-danger="shipment_status == 'cancelled'"/>
+                                </group>
+                                <group string="Original Documents">
+                                    <field name="document_etd"/>
+                                    <field name="document_eta"/>
+                                    <field name="document_status" widget="badge"
+                                           decoration-danger="document_status == 'not_received'"
+                                           decoration-warning="document_status == 'expected'"
+                                           decoration-success="document_status == 'received'"/>
+                                    <field name="document_received_date"
+                                           invisible="document_status != 'received'"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Confirmation" name="confirmation">
+                            <group>
+                                <group>
+                                    <field name="send_confirmation_to" widget="radio"/>
+                                    <field name="confirmation_recipient_ids" widget="many2many_tags" readonly="1"/>
+                                    <field name="confirmation_status" widget="badge"
+                                           decoration-muted="confirmation_status == 'draft'"
+                                           decoration-warning="confirmation_status == 'sent'"
+                                           decoration-success="confirmation_status == 'confirmed'"
+                                           decoration-danger="confirmation_status == 'not_confirmed'"/>
+                                </group>
+                                <group>
+                                    <field name="confirmation_sent_date"/>
+                                    <field name="confirmation_date"/>
+                                    <field name="last_confirmation_recipient_ids" widget="many2many_tags"
+                                           invisible="not last_confirmation_recipient_ids"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Add shipment instructions or internal notes..."/>
+                        </page>
+                    </notebook>
+                    <field name="active" invisible="1"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vendor_shipment_search" model="ir.ui.view">
+        <field name="name">vendor.shipment.search</field>
+        <field name="model">vendor.shipment</field>
+        <field name="arch" type="xml">
+            <search string="Search Shipments">
+                <field name="name" string="Shipment / Vendor Order"
+                       filter_domain="['|', ('name', 'ilike', self), ('vendor_order_number', 'ilike', self)]"/>
+                <field name="vendor_id"/>
+                <field name="purchase_order_ids"/>
+                <field name="shipping_company_id"/>
+                <field name="tracking_reference"/>
+                <filter string="Shipment Departure" name="shipment_etd" date="shipment_etd"/>
+                <filter string="Shipment Arrival" name="shipment_eta" date="shipment_eta"/>
+                <separator/>
+                <filter string="Pending" name="pending" domain="[('shipment_status', '=', 'pending')]"/>
+                <filter string="In Transit" name="in_transit" domain="[('shipment_status', '=', 'in_transit')]"/>
+                <filter string="Delivered" name="delivered" domain="[('shipment_status', '=', 'delivered')]"/>
+                <filter string="Awaiting Confirmation" name="awaiting_confirmation"
+                        domain="[('confirmation_status', '=', 'sent')]"/>
+                <filter string="Not Confirmed" name="not_confirmed"
+                        domain="[('confirmation_status', '=', 'not_confirmed')]"/>
+                <filter string="Documents Not Received" name="documents_not_received"
+                        domain="[('document_status', '=', 'not_received')]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Vendor" name="group_vendor" domain="[]"
+                            context="{'group_by': 'vendor_id'}"/>
+                    <filter string="Shipment Status" name="group_shipment_status"
+                            domain="[]"
+                            context="{'group_by': 'shipment_status'}"/>
+                    <filter string="Document Status" name="group_document_status"
+                            domain="[]"
+                            context="{'group_by': 'document_status'}"/>
+                    <filter string="Confirmation Status" name="group_confirmation_status"
+                            domain="[]"
+                            context="{'group_by': 'confirmation_status'}"/>
+                    <filter string="Shipment ETD" name="group_shipment_etd"
+                            domain="[]"
+                            context="{'group_by': 'shipment_etd:month'}"/>
+                </group>
+                <searchpanel>
+                    <field name="vendor_id" select="multi" enable_counters="1"/>
+                    <field name="shipment_status" select="multi" enable_counters="1"/>
+                    <field name="confirmation_status" select="multi" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_vendor_shipment_calendar" model="ir.ui.view">
+        <field name="name">vendor.shipment.calendar</field>
+        <field name="model">vendor.shipment</field>
+        <field name="arch" type="xml">
+            <calendar string="Shipment Schedule" date_start="shipment_etd" date_stop="shipment_eta"
+                      color="vendor_id" mode="month" event_limit="5">
+                <field name="vendor_id" filters="1"/>
+                <field name="vendor_order_number"/>
+                <field name="shipment_status"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_vendor_shipment" model="ir.actions.act_window">
+        <field name="name">Shipment Tracking</field>
+        <field name="res_model">vendor.shipment</field>
+        <field name="view_mode">list,form,calendar,activity</field>
+        <field name="search_view_id" ref="view_vendor_shipment_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first vendor shipment</p>
+            <p>Track vendor orders, shipment and document dates, and confirmation emails in one place.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_vendor_shipment_root" name="Shipment Tracking" sequence="65"
+              web_icon="vendor_shipment_tracking,static/description/icon.svg"
+              groups="vendor_shipment_tracking.group_vendor_shipment_user"/>
+    <menuitem id="menu_vendor_shipment_orders" name="Shipments"
+              parent="menu_vendor_shipment_root" action="action_vendor_shipment" sequence="10"/>
+</odoo>

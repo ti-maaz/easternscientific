@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_template_shipment_confirmation" model="mail.template">
+            <field name="name">Shipment: Confirmation Request</field>
+            <field name="model_id" ref="model_vendor_shipment"/>
+            <field name="email_from">{{ object.user_id.email_formatted or user.email_formatted }}</field>
+            <field name="subject">{{ object.company_id.name }} shipment confirmation ({{ object.name }})</field>
+            <field name="partner_to" eval="False"/>
+            <field name="use_default_to" eval="True"/>
+            <field name="description">Sent to the vendor or shipping company to confirm an inbound shipment</field>
+            <field name="body_html" type="html">
+<div style="margin: 0; padding: 0; font-size: 13px;">
+    <p style="margin: 0; padding: 0;">
+        Dear Sir/Madam,<br/><br/>
+        Please review and confirm the following shipment arrangement for
+        <strong t-out="object.company_id.name">Your Company</strong>.
+    </p>
+    <table style="border-collapse: collapse; width: 100%; max-width: 680px; margin: 16px 0;">
+        <tbody>
+            <tr>
+                <td style="padding: 6px; border: 1px solid #ddd;"><strong>Shipment No.</strong></td>
+                <td style="padding: 6px; border: 1px solid #ddd;" t-out="object.name">SHP/2026/00001</td>
+            </tr>
+            <tr>
+                <td style="padding: 6px; border: 1px solid #ddd;"><strong>Vendor</strong></td>
+                <td style="padding: 6px; border: 1px solid #ddd;" t-out="object.vendor_id.display_name">Vendor</td>
+            </tr>
+            <tr t-if="object.vendor_order_number">
+                <td style="padding: 6px; border: 1px solid #ddd;"><strong>Vendor Order No.</strong></td>
+                <td style="padding: 6px; border: 1px solid #ddd;" t-out="object.vendor_order_number">REF-001</td>
+            </tr>
+            <tr t-if="object.purchase_order_ids">
+                <td style="padding: 6px; border: 1px solid #ddd;"><strong>Purchase Orders</strong></td>
+                <td style="padding: 6px; border: 1px solid #ddd;">
+                    <t t-foreach="object.purchase_order_ids" t-as="purchase_order">
+                        <span t-out="purchase_order.name">P00001</span><t t-if="not purchase_order_last">, </t>
+                    </t>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 6px; border: 1px solid #ddd;"><strong>Shipment ETD</strong></td>
+                <td style="padding: 6px; border: 1px solid #ddd;">
+                    <span t-if="object.shipment_etd" t-out="format_date(object.shipment_etd)">09/20/2026</span>
+                    <span t-else="">Not specified</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 6px; border: 1px solid #ddd;"><strong>Shipment ETA</strong></td>
+                <td style="padding: 6px; border: 1px solid #ddd;">
+                    <span t-if="object.shipment_eta" t-out="format_date(object.shipment_eta)">10/15/2026</span>
+                    <span t-else="">Not specified</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 6px; border: 1px solid #ddd;"><strong>Document ETD / ETA</strong></td>
+                <td style="padding: 6px; border: 1px solid #ddd;">
+                    <span t-if="object.document_etd" t-out="format_date(object.document_etd)">09/22/2026</span>
+                    <span t-else="">Not specified</span>
+                    /
+                    <span t-if="object.document_eta" t-out="format_date(object.document_eta)">09/27/2026</span>
+                    <span t-else="">Not specified</span>
+                </td>
+            </tr>
+            <tr t-if="object.tracking_reference">
+                <td style="padding: 6px; border: 1px solid #ddd;"><strong>Tracking / B/L No.</strong></td>
+                <td style="padding: 6px; border: 1px solid #ddd;" t-out="object.tracking_reference">BL-001</td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="margin: 0; padding: 0;">
+        Please reply to this email with your confirmation or any required changes.<br/><br/>
+        Best regards,
+        <t t-if="object.user_id.signature">
+            <br/><t t-out="object.user_id.signature">Administrator</t>
+        </t>
+    </p>
+</div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>
